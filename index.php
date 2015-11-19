@@ -2,9 +2,9 @@
 <html>
     <head>
         <?  // turn error reporting on
-            ini_set('display_errors', 1);
+            /* ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
-            error_reporting(E_ALL);
+            error_reporting(E_ALL);*/
 
             require 'database/db_functions-004cf329-659d-40d4-9c7e-6c2dea495653.php';
 
