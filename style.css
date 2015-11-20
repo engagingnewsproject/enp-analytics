@@ -95,6 +95,7 @@ p {
 a {
     color: #396BA7;
     text-decoration: none;
+    word-wrap: break-word;
     transition: all .2s;
 }
 
