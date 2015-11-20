@@ -125,7 +125,7 @@ function overview_table($site_url) {
              <table class="data-overview">
                 <thead>
                     <th>Button</th>
-                    <th class="integer">Site Total Clicks</a>
+                    <th class="integer">Total Clicks</a>
                 </thead>
                 <tbody>';
 
