@@ -41,8 +41,6 @@ th {
     color: #666;
     font-weight: 400;
     text-align: left;
-    padding-bottom: .5em;
-    border-bottom: 1px solid #ddd;
 }
 
 td,
@@ -61,6 +59,21 @@ tr:nth-child(odd) td {
 
 .integer {
     text-align: right;
+}
+
+.flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-item {
+    flex: 1;
+    min-width: 10em;
+    max-width: 16em;
+    padding: .6em 1.6em 1.6em;
+    margin: .5em;
+    background: #fff;
+    border-bottom: 2px solid #ccc;
 }
 
 .site-url {
