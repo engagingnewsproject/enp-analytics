@@ -137,7 +137,10 @@ function overview_table($site_url) {
                             <td class="integer">'.$get_sum.'</td>
                         </tr>';
         } else {
-            echo 'no results found';
+            $table .= '<tr>
+                            <td>No Buttons Found</td>
+                            <td class="integer">0</td>
+                        </tr>';
         }
     }
 
