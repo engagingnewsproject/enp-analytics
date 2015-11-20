@@ -138,7 +138,7 @@ function overview_table($site_url) {
                         </tr>';
         } else {
             $table .= '<tr>
-                            <td>No Buttons Found</td>
+                            <td>'.$slug['button'].'</td>
                             <td class="integer">0</td>
                         </tr>';
         }
