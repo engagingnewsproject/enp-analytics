@@ -128,6 +128,8 @@ textarea {
     border-radius: 3px;
     min-width: 275px;
     margin-bottom: 0.6em;
+    -webkit-appearance: none;
+    -webkit-border-radius:0; 
 }
 
 textarea {
