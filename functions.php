@@ -137,7 +137,7 @@ function overview_table($site_url) {
     $site_btn_slugs = get_site_slugs($site_url);
 
     $table = '<div class="flex-item">
-        <h3 class="site-url"><a href="?site_url='.$site_url.'">'.$site_url.'</a></h3>
+        <h3 class="site-url"><a class="site-url__link"  href="?site_url='.$site_url.'">'.$site_url.'</a></h3>
          <div class="site-overview">
              <table class="data-overview">
                 <thead>
