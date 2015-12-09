@@ -9,7 +9,7 @@ body {
     font-size: 1em;
     line-height: 1.6;
     font-weight: 400;
-    padding: 2em;
+    padding: 2em 20px;
 
     @mixin media($tablet) {
         padding: 2em 0;
@@ -129,7 +129,7 @@ textarea {
     min-width: 275px;
     margin-bottom: 0.6em;
     -webkit-appearance: none;
-    -webkit-border-radius:0; 
+    -webkit-border-radius:0;
 }
 
 textarea {
