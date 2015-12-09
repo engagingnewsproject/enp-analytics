@@ -9,8 +9,11 @@ body {
     font-size: 1em;
     line-height: 1.6;
     font-weight: 400;
-    padding: 2em 0;
+    padding: 2em;
 
+    @mixin media($tablet) {
+        padding: 2em 0;
+    }
 }
 
 /* Headings */
@@ -124,7 +127,7 @@ textarea {
     border-bottom: 1px solid #999;
     border-radius: 3px;
     min-width: 275px;
-    margin-bottom: 1.2em;
+    margin-bottom: 0.6em;
 }
 
 textarea {
