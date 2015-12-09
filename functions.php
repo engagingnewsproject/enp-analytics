@@ -62,11 +62,28 @@ function queryTable($site_url) {
     }
 
     $stm = $pdo->prepare("SELECT * FROM button_data
-                                WHERE site_url = :site_url
-                                ORDER BY $orderby $order
-                    ");
-
+                                    WHERE site_url = :site_url
+                                    ORDER BY $orderby $order
+                        ");
     $params = array(':site_url'   => $site_url);
+
+    $stm->execute($params);
+    $findMatches = $stm->fetchAll();
+
+    return $findMatches;
+}
+
+function searchQuery($query) {
+    $pdo = db_connect();
+
+        // we're searching. do LIKE
+    $stm = $pdo->prepare("SELECT DISTINCT site_url
+                                 FROM button_data
+                                 WHERE  site_url
+                                 LIKE concat('%', :site_url, '%')
+                    ");
+    $params = array(':site_url'   => $query);
+
     $stm->execute($params);
     $findMatches = $stm->fetchAll();
 
@@ -151,4 +168,15 @@ function overview_table($site_url) {
 
     return $table;
 }
+
+function siteCards($sites) {
+    $cards = '<div class="flex-grid">';
+    // loop through all the matches and output each table
+    foreach($sites as $site) {
+        $cards .= overview_table($site['site_url']);
+    }
+    $cards .= '</div>';
+    return $cards;
+}
+
 ?>

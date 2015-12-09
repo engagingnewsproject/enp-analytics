@@ -26,38 +26,55 @@
         <? // end svg ?>
         <header class="masthead">
             <h1>Engaging Button Data</h1>
-            <? echo (isset($_GET['site_url']) ?  '<p class="hint"><a href="'.strtok($_SERVER["REQUEST_URI"],'?').'"><span class="chevron">&lsaquo;</span> Back to All Results</a></p>' : '');?>
+            <form action="<? echo strtok($_SERVER["REQUEST_URI"],'?');?>">
+                <input type="search" name="s" placeholder="Search by site URL" />
+                <button>Search</button>
+            </form>
+            <? if( isset($_GET['site_url']) || isset($_GET['s']) ) {
+                echo '<p class="hint"><a href="'.strtok($_SERVER["REQUEST_URI"],'?').'"><span class="chevron">&lsaquo;</span> Back to All Sites</a></p>';
+            }?>
         </header>
 
-        <main class="main">
+
+        <?
+        $main_classes = '';
+        if(!isset($_GET['order']) && !isset($_GET['orderby'])) {
+            $main_classes = ' main--onload-animate';
+        }?>
+        <main class="main<? echo $main_classes;?>">
 
             <?
-            if(isset($_GET['site_url'])) {
-                // INDIVIDUAL SITE DATA
-                $findMatches = queryTable($_GET['site_url']);
-                if($findMatches) {
-                    echo displayTable($findMatches);
+            if(isset($_GET['s']) || isset($_GET['site_url'])) {
+                if(isset($_GET['s'])) {
+                    // run a search LIKE query
+                    echo '<h2><span class="hint">Results for your search:</span> '. $_GET['s'].'</h2>';
+                    $findMatches = searchQuery($_GET['s']);
+
+                    if($findMatches) {
+                        echo siteCards($findMatches);
+                    }
                 } else {
-                    echo 'no results found';
+                    // INDIVIDUAL SITE DATA
+                    $findMatches = queryTable($_GET['site_url']);
+
+                    if($findMatches) {
+                        echo displayTable($findMatches);
+                    }
+                }
+
+                if(!$findMatches) {
+                    echo 'no results found :(';
                 }
             } else {
 
                 // HOMEPAGE OVERVIEW
-
                 // Get all site URLs
                 $sites = getUniqueSites();
                 if($sites) {
-                    echo '<div class="flex-grid">';
-                    // loop through all the matches and output each table
-                    foreach($sites as $site) {
-                        echo overview_table($site['site_url']);
-                    }
-                    echo '</div>';
+                    echo siteCards($sites);
                 } else {
                     echo 'No sites found :(';
                 }
-
-
             }
             ?>
         </main>
