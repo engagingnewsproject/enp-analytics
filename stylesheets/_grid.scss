@@ -87,15 +87,20 @@ $mobile: 24em;
 
 .flex-grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
 }
 
 .flex-item {
     flex: 1;
-    min-width: 16em;
-    max-width: 19em;
     padding: .6em 1.6em 1.6em;
     margin: .5em;
+    flex-basis: 16em;
     background: #fff;
     border-bottom: 2px solid #ccc;
+
+    @include media(40em) {
+        flex-basis: 19em;
+        max-width: 19em;
+    }
+
 }
