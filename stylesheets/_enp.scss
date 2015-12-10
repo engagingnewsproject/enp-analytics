@@ -29,6 +29,14 @@
     word-wrap: break-word;
 }
 
+.icon-open {
+    width: 1em;
+    height: 1em;
+    position: relative;
+    top: .15em;
+    fill: lighten($font, 15%);
+}
+
 .integer {
     text-align: right;
 }
@@ -79,6 +87,17 @@
 
 .integer .order-wrap {
     left: 0;
+}
+
+.site-data-table__button__link {
+    .icon-open {
+        opacity: 0;
+        transition: opacity .2s;
+    }
+
+    &:hover .icon-open {
+        opacity: 1;
+    }
 }
 
 /* Search form */

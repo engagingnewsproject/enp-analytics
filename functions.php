@@ -18,7 +18,7 @@ function displayTable($findMatches) {
     }
     foreach($findMatches as $row) {
         if($i === 0) {
-            $table = '<h3 class="site-url"><a href="'.$row['site_url'].'">'.$row['site_url'].'</a></h3>
+            $table = '<h3 class="site-url"><a href="'.$row['site_url'].'">'.$row['site_url'].' <svg class="icon-open"><use xlink:href="#icon-open"></use></svg></a></h3>
              <div class="site-data">
                  <table class="site-data-table">
                     <thead>
@@ -31,8 +31,8 @@ function displayTable($findMatches) {
         }
 
         $table .= '<tr>
-                    <td>'.$row['button'].'</td>
-                    <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
+                    <td class="site-data-table__button"><a class="site-data-table__button__link" href="'.$row['button_url'].'">'.$row['button'].' <svg class="icon-open"><use xlink:href="#icon-open"></use></svg></a></td>
+                    <td>'.$row['post_type'].'</td>
                     <td class="integer">'.$row['clicks'].'</td>
                 </tr>';
 
