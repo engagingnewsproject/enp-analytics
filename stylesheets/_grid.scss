@@ -87,7 +87,7 @@ $mobile: 24em;
 
 body {
     background: #eee;
-    padding: 2em 20px;
+    padding: 2em 1em;
 
     @mixin media($tablet) {
         padding: 2em;

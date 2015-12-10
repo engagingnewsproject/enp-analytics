@@ -12,7 +12,11 @@
     background: #fff;
     border-bottom: 2px solid #ccc;
     padding: 1.6em 1em 1.6em;
-    margin-bottom: 2em;
+    margin: 0 -1em 2em;
+
+    @include media($tablet) {
+        margin: 0 0 2em;
+    }
 }
 
 .site-url {
