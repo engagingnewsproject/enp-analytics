@@ -11,10 +11,11 @@
 .site-data {
     background: #fff;
     border-bottom: 2px solid #ccc;
-    padding: 1.6em 1em 1.6em;
+    padding: 1.6em 0em 1.6em;
     margin: 0 -1em 2em;
 
     @include media($tablet) {
+        padding: 1.6em 1em 1.6em;
         margin: 0 0 2em;
     }
 }
