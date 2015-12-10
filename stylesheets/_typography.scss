@@ -3,17 +3,11 @@ $fontTitle : Tahoma, arial, sans-serif;
 $sansSerif : Tahoma, arial, sans-serif;
 
 body {
-    background: #eee;
     color: $font;
     font-family: $fontBody;
     font-size: 1em;
     line-height: 1.6;
     font-weight: 400;
-    padding: 2em 20px;
-
-    @mixin media($tablet) {
-        padding: 2em 0;
-    }
 }
 
 /* Headings */
@@ -187,4 +181,10 @@ th {
 
 tr:nth-child(odd) td {
     background: #f8f8f8;
+}
+
+@media screen and (max-width:$tablet) {
+    .site-data {
+        overflow-y: scroll;
+    }
 }

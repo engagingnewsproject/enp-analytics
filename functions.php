@@ -25,6 +25,11 @@ function displayTable($findMatches) {
                         <th>Button <span class="order-wrap"><a href="'.$query_link.'&orderby=button&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=button&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
                         <th>Type <span class="order-wrap"><a href="'.$query_link.'&orderby=post_type&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=post_type&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
                         <th class="integer"><span class="order-wrap"><a href="'.$query_link.'&orderby=clicks&order=DESC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=clicks&order=ASC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span> Clicks</th>
+                        <th>Type <span class="order-wrap"><a href="'.$query_link.'&orderby=post_type&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=post_type&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
+                        <th>Type <span class="order-wrap"><a href="'.$query_link.'&orderby=post_type&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=post_type&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
+                        <th>Type <span class="order-wrap"><a href="'.$query_link.'&orderby=post_type&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=post_type&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
+                        <th>Type <span class="order-wrap"><a href="'.$query_link.'&orderby=post_type&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=post_type&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
+                        <th>Type <span class="order-wrap"><a href="'.$query_link.'&orderby=post_type&order=ASC" class="up"><svg class="icon-up"><use xlink:href="#icon-up"></use></svg></a><a href="'.$query_link.'&orderby=post_type&order=DESC" class="down"><svg class="icon-down"><use xlink:href="#icon-down"></use></svg></a></span></th>
                     </thead>
                     <tbody>';
             $i++;
@@ -34,6 +39,12 @@ function displayTable($findMatches) {
                     <td>'.$row['button'].'</td>
                     <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
                     <td class="integer">'.$row['clicks'].'</td>
+                    <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
+                    <td>'.$row['button'].'</td>
+                    <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
+                    <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
+                    <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
+                    <td><a href="'.$row['button_url'].'">'.$row['post_type'].'</a></td>
                 </tr>';
 
 

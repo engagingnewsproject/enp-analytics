@@ -25,7 +25,7 @@
             </svg>
         <? // end svg ?>
         <header class="masthead">
-            <h1>Engaging Button Data</h1>
+            <h1><a href="<? echo strtok($_SERVER["REQUEST_URI"],'?');?>">Engaging Button Data</a></h1>
             <form action="<? echo strtok($_SERVER["REQUEST_URI"],'?');?>">
                 <input type="search" name="s" placeholder="Search by site URL" />
                 <button>Search</button>

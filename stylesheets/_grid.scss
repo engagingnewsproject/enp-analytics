@@ -85,6 +85,21 @@ $mobile: 24em;
     @extend %clearfix;
 }
 
+body {
+    background: #eee;
+    padding: 2em 20px;
+
+    @mixin media($tablet) {
+        padding: 2em;
+
+        .site-data {
+            padding: 2.6em 2em 3.6em;
+            margin-bottom: 3em;
+        }
+    }
+
+}
+
 .flex-grid {
     display: flex;
     flex-flow: row wrap;
