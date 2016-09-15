@@ -1,0 +1,7 @@
+### ENP Analytics
+ENP Analytics is an online GUI for interacting with the data we've collected from users who have allowed us to track data from the Engaging News Project tools they're using.
+
+Right now, the only data we're collecting and displaying is from the <a href="https://github.com/engagingnewsproject/engaging-buttons">Engaging Buttons WordPress plugin</a>.
+
+### Local Set-up
+We're using Gulp for compiling SASS. The gulpfile.js we're using is included in the repo.
