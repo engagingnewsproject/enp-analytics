@@ -35,7 +35,8 @@
 <script src="/views/button/dist/js/vue.js"></script>
 <script type="text/javascript">
 // set the sites var
-var site = <?php echo json_encode($site);?>
+var site = <?php echo json_encode($site);?>;
+var currentPage = 'site';
 </script>
 <script type="text/javascript" src="/views/button/dist/js/button.js"></script>
 </body>

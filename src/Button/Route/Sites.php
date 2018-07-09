@@ -7,7 +7,8 @@ class Sites extends Route
 {
     protected $app,
               $siteURL = false,
-              $site;
+              $site,
+              $sites = [];
 
     public function __construct($app = false) {
         $this->app = $app;
@@ -31,9 +32,15 @@ class Sites extends Route
 
         $view = $this->app->get('view');
         $this->site->setPosts();
-        $view->render($response, "button/site.php", [
-            'site' => $this->site
-        ]);
+
+        $format = $request->getQueryParam('format');
+        if($format === 'json') {
+            return $this->return($this->site->array(), $response);
+        } else {
+            // we'll render all sites into the javascript this way 
+            $this->renderSites($request, $response, $this->db->getUniqueSites());
+        }
+        
     }
 
     public function getAll($request, $response) {
@@ -61,7 +68,8 @@ class Sites extends Route
         }
         $view = $this->app->get('view');
         $view->render($response, "button/sites.php", [
-            'sites' => $sites
+            'sites' => $sites,
+            'site'  => $this->site
         ]);
     }
 
