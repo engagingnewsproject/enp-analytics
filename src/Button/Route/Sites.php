@@ -30,47 +30,34 @@ class Sites extends Route
         // init data
         $this->init($request);
 
-        $view = $this->app->get('view');
         $this->site->setPosts();
 
-        $format = $request->getQueryParam('format');
-        if($format === 'json') {
-            return $this->return($this->site->array(), $response);
-        } else {
-            // we'll render all sites into the javascript this way 
-            $this->renderSites($request, $response, $this->db->getUniqueSites());
-        }
-        
+        return $this->return($this->site->array(), $response);
     }
 
     public function getAll($request, $response) {
         // init data
         $this->init($request);
-        $siteURLs = $this->db->getUniqueSites();
 
-        $this->renderSites($request, $response, $siteURLs);
-    }
-
-    public function search($request, $response) {
-        $this->init($request);
+        // check for a search query
         $search = $request->getQueryParam('s');
 
-        $sites = $this->db->searchSites($search);
+        if($search) {
+            $siteURLs = $this->db->searchSites($search);
+        } else {
+            $siteURLs = $this->db->getUniqueSites();
+        }
 
-        return $this->renderSites($request, $response, $sites);
+        $this->returnSites($siteURLs, $request, $response);
     }
 
-    public function renderSites($request, $response, $siteURLs = []) {
+    public function returnSites($siteURLs = [], $request, $response) {
         $sites = [];
         foreach($siteURLs as $url) {
             $site = new Site($url['site_url'], $this->db);
             $sites[] = $site->array();
         }
-        $view = $this->app->get('view');
-        $view->render($response, "button/sites.php", [
-            'sites' => $sites,
-            'site'  => $this->site
-        ]);
+        $this->return($sites, $response);
     }
 
 }

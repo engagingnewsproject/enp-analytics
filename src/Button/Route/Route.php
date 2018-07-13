@@ -49,7 +49,7 @@ class Route
         if($this->getErrors()) {
             $response->getBody()->write(json_encode($this->getErrors()));
         } else {
-            $response->getBody()->write(json_encode($return));
+            $response->getBody()->write(json_encode($return, JSON_NUMERIC_CHECK));
         }
         return $response;
     }

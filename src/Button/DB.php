@@ -78,9 +78,9 @@ class DB extends PDO {
         }
 
         $sql = "SELECT * FROM button_data
-                        WHERE site_url = :site_url
-                        ORDER BY $orderby $order
-                            ";
+                    WHERE site_url = :site_url
+                    ORDER BY $orderby $order
+                ";
         $params = array(':site_url'   => $siteURL);
 
         return $this->fetchAll($sql, $params);
@@ -90,10 +90,10 @@ class DB extends PDO {
 
             // we're searching. do LIKE
         $sql = "SELECT DISTINCT site_url
-                                     FROM button_data
-                                     WHERE  site_url
-                                     LIKE concat('%', :site_url, '%')
-                        ";
+                    FROM button_data
+                    WHERE  site_url
+                    LIKE concat('%', :site_url, '%')
+                ";
         $params = array(':site_url'   => $siteURL);
 
         return $this->fetchAll($sql, $params);
@@ -101,10 +101,11 @@ class DB extends PDO {
 
     public function btnClickSum($siteURL, $button) {
 
-        $sql = "SELECT SUM(clicks) FROM button_data
-                                    WHERE site_url = :site_url
-                                    AND button = :button
-                        ";
+        $sql = "SELECT SUM(clicks) 
+                    FROM button_data
+                    WHERE site_url = :site_url
+                    AND button = :button
+                ";
         $params = array(':site_url'   => $siteURL,
                         ':button'   => $button);
 
@@ -113,8 +114,8 @@ class DB extends PDO {
 
 
     public function getUniqueSites() {
-        $sql = "SELECT DISTINCT site_url FROM button_data";
-        
+        $sql = "SELECT DISTINCT site_url FROM button_data WHERE ".$this->excludeDevSites();
+
         return $this->fetchAll($sql);
     }
 
@@ -122,12 +123,84 @@ class DB extends PDO {
     public function getSiteButtons($siteURL) {
 
         $sql = "SELECT DISTINCT button FROM button_data
-                                WHERE site_url = :site_url
-                    ";
+                    WHERE site_url = :site_url
+                ";
 
         $params = array(':site_url'   => $siteURL);
         
         return $this->fetchAll($sql, $params);
     }
+
+    public function getUniqueButtons() {
+
+        $sql = "SELECT DISTINCT button FROM button_data";
+        
+        return $this->fetchAllColumn($sql);
+    }
+
+    public function getButtonClicks($button) {
+
+        $sql = "SELECT id, button_url, post_type, created_at as date 
+                    FROM button_data
+                    WHERE button = :button
+                    AND ".$this->excludeDevSites();
+                    
+        $params = [':button'   => $button];
+
+        return $this->fetchAll($sql, $params);
+    }
+
+    public function getButtonClickSum($button) {
+
+        $sql = "SELECT SUM(clicks) as clicks
+                    FROM button_data
+                    WHERE button = :button
+                    AND ".$this->excludeDevSites();
+
+        $params = [':button'   => $button];
+
+        return $this->fetchOne($sql, $params);
+    }
+
+    public function getUniqueButtonSitesTotal($button) {
+
+        $sql = "SELECT COUNT(DISTINCT site_url) as total_sites
+                    FROM button_data
+                    WHERE button = :button
+                    AND ".$this->excludeDevSites();
+
+        $params = [':button'   => $button];
+        
+        return $this->fetchOne($sql, $params);
+    }
+
+    public function getUniqueButtonPagesTotal($button) {
+
+        $sql = "SELECT COUNT(DISTINCT button_url) as total_pages
+                    FROM button_data
+                    WHERE button = :button 
+                    AND ".$this->excludeDevSites();
+
+        $params = [':button'   => $button];
+        
+        return $this->fetchOne($sql, $params);
+    }
+
+    public function excludeDevSites() {
+        return "site_url NOT LIKE '%dev%' 
+                AND site_url NOT LIKE '%test%'
+                AND site_url NOT LIKE '%localhost%'";
+    }
+
+    public function getClicks($page = 0, $count = 100) {
+        $sql = "SELECT id, button, button_url, clicks, post_type, updated
+                    FROM button_data
+                    ORDER BY created_at DESC
+                    LIMIT ".$count." OFFSET ".$page * $count;
+
+
+        return $this->fetchAll($sql);
+    }
 }
+
 

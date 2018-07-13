@@ -55,10 +55,11 @@ $c['phpErrorHandler'] = function ($c) {
 // An authentication layer for validating users before passing them through to the route
 // $app->add(new \Cme\Authentication());
 
-$app->group('/quiz-creator', function() {
+$app->group('/quiz-creator/api/v1', function() {
     global $log;
     $log->pushHandler(new StreamHandler('log/quiz/quiz.log'));
     $log->pushHandler(new StreamHandler('log/quiz/error.log', Logger::WARNING));
+
     // start a DB connection to the quiz DB
     //$db = new 
     // Individual quiz
@@ -73,21 +74,20 @@ $app->group('/quiz-creator', function() {
     $this->get('/sites', '\Quiz\Route\Sites:getAll');
     // Individual Site
     $this->get('/sites/{siteID}', '\Quiz\Route\Sites:get');
-
 });
 
-$app->group('/engaging-buttons', function() {
+$app->group('/engaging-buttons/api/v1', function() {
     global $log;
     $log->pushHandler(new StreamHandler('log/button/button.log'));
     $log->pushHandler(new StreamHandler('log/button/error.log', Logger::WARNING));
 
+    $this->get('/clicks', '\Button\Route\Clicks:getAll');
     $this->get('/buttons', '\Button\Route\Buttons:getAll');
     // start a DB connection to the button DB
     $this->get('/buttons/{buttonSlug}', '\Button\Route\Buttons:get');
 
     $this->get('/sites', '\Button\Route\Sites:getAll');
     $this->get('/sites/{siteURL}', '\Button\Route\Sites:get');
-    $this->get('/search/', '\Button\Route\Sites:search');
 });
 
 
