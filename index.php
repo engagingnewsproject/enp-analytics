@@ -1,3 +1,100 @@
+<?php
+// allow all sites to access this file
+header('Access-Control-Allow-Origin: *');
+
+require 'vendor/autoload.php';
+
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+$log = new Logger('data');
+
+$config = [];
+$config['displayErrorDetails'] = true;
+
+$config['addContentLengthHeader'] = false;
+
+$app = new \Slim\App(["settings" => $config]);
+
+// Start Laxy CORS //
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
+});
+
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
+});
+// END Laxy CORS //
+
+// register views
+$c = $app->getContainer();
+$c['view'] = new \Slim\Views\PhpRenderer("views/");
+
+// anytime a throw new Error happens, it'll run through this.
+
+$c['phpErrorHandler'] = function ($c) {
+    return function ($request, $response, $error) use ($c) {
+        $return = [
+            'status'  => 'error',
+            'message' => $error->getMessage(),
+            'file'  => $error->getFile(),
+            'line'  => $error->getLine()
+        ];
+        return $c['response']
+            ->withStatus(500)
+            ->withHeader('Content-Type', 'application/json')
+            ->write(json_encode($return));
+    };
+};
+
+// An authentication layer for validating users before passing them through to the route
+// $app->add(new \Cme\Authentication());
+
+$app->group('/quiz-creator/api/v1', function() {
+    global $log;
+    $log->pushHandler(new StreamHandler('log/quiz/quiz.log'));
+    $log->pushHandler(new StreamHandler('log/quiz/error.log', Logger::WARNING));
+
+    // start a DB connection to the quiz DB
+    //$db = new 
+    // Individual quiz
+    $this->get('/quizzes', '\Quiz\Route\Quizzes:getAll');
+    // Individual quiz
+    $this->get('/quizzes/{quizID}', '\Quiz\Route\Quizzes:get');
+    // Embeds by Quiz - All Quizzes
+    $this->get('/embeds', '\Quiz\Route\Embeds:getAll');
+    // Embeds by Quiz - One Quiz
+    $this->get('/embeds/{quizID}', '\Quiz\Route\Embeds:get');
+    // Sites that have embedded quizzes
+    $this->get('/sites', '\Quiz\Route\Sites:getAll');
+    // Individual Site
+    $this->get('/sites/{siteID}', '\Quiz\Route\Sites:get');
+});
+
+$app->group('/engaging-buttons/api/v1', function() {
+    global $log;
+    $log->pushHandler(new StreamHandler('log/button/button.log'));
+    $log->pushHandler(new StreamHandler('log/button/error.log', Logger::WARNING));
+
+    $this->get('/clicks', '\Button\Route\Clicks:getAll');
+    $this->get('/buttons', '\Button\Route\Buttons:getAll');
+    // start a DB connection to the button DB
+    $this->get('/buttons/{buttonSlug}', '\Button\Route\Buttons:get');
+
+    $this->get('/sites', '\Button\Route\Sites:getAll');
+    $this->get('/sites/{siteURL}', '\Button\Route\Sites:get');
+});
+
+
+$app->run();
+
+
+/*
 
 <html lang="en-US">
     <head>
@@ -84,3 +181,9 @@
         </main>
     </body>
 </html>
+
+
+
+*/
+
+?>
