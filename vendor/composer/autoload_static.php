@@ -21,13 +21,8 @@ class ComposerStaticInit02da3f01d9ce189a2b4c871c0cc32f97
         ),
         'P' => 
         array (
-            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
-        ),
-        'M' => 
-        array (
-            'Monolog\\' => 8,
         ),
         'I' => 
         array (
@@ -52,10 +47,6 @@ class ComposerStaticInit02da3f01d9ce189a2b4c871c0cc32f97
         array (
             0 => __DIR__ . '/../..' . '/src/Quiz',
         ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
@@ -63,10 +54,6 @@ class ComposerStaticInit02da3f01d9ce189a2b4c871c0cc32f97
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
-        ),
-        'Monolog\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Interop\\Container\\' => 
         array (

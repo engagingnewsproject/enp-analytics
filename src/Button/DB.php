@@ -36,8 +36,6 @@ class DB extends PDO {
                                 $password,
                                 $options);
         } catch (\Exception $e) {
-            global $log;
-            $log->error('Could not connect to database: '.$e->getMessage());
             $this->errors = $e->getMessage();
         }
     }

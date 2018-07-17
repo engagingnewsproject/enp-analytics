@@ -6,10 +6,6 @@ require 'vendor/autoload.php';
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
-$log = new Logger('data');
 
 $config = [];
 $config['displayErrorDetails'] = true;
@@ -55,10 +51,6 @@ $c['phpErrorHandler'] = function ($c) {
 // $app->add(new \Cme\Authentication());
 
 $app->group('/quiz-creator/api/v1', function() {
-    global $log;
-    $log->pushHandler(new StreamHandler('log/quiz/quiz.log'));
-    $log->pushHandler(new StreamHandler('log/quiz/error.log', Logger::WARNING));
-
     // start a DB connection to the quiz DB
     //$db = new 
     // Individual quiz
@@ -76,10 +68,6 @@ $app->group('/quiz-creator/api/v1', function() {
 });
 
 $app->group('/engaging-buttons/api/v1', function() {
-    global $log;
-    $log->pushHandler(new StreamHandler('log/button/button.log'));
-    $log->pushHandler(new StreamHandler('log/button/error.log', Logger::WARNING));
-
     $this->get('/clicks', '\Button\Route\Clicks:getAll');
     $this->get('/buttons', '\Button\Route\Buttons:getAll');
     // start a DB connection to the button DB
