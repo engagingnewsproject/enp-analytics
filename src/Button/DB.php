@@ -13,7 +13,8 @@ use Monolog\Handler\StreamHandler;
 **/
 
 class DB extends PDO {
-    public $errors = [];
+    public $errors = [],
+           $dbName;
 
     public function __construct($user) {
         // check if a connection already exists
@@ -28,8 +29,10 @@ class DB extends PDO {
             $config = parse_ini_file('config.ini');
             $host = $config['buttonhost'];
             $name = $config['buttondbname'];
+            $this->dbName = $name;
             $user = $config['buttonusername'];
             $password = $config['buttonpassword'];
+
             // create the new connection
             parent::__construct('mysql:host='.$host.';dbname='.$name,
                                 $user,
@@ -75,7 +78,7 @@ class DB extends PDO {
             $order = 'DESC';
         }
 
-        $sql = "SELECT * FROM button_data
+        $sql = "SELECT * FROM ".$this->dbName.".button_data
                     WHERE site_url = :site_url
                     ORDER BY $orderby $order
                 ";
@@ -88,7 +91,7 @@ class DB extends PDO {
 
             // we're searching. do LIKE
         $sql = "SELECT DISTINCT site_url
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     WHERE  site_url
                     LIKE concat('%', :site_url, '%')
                 ";
@@ -100,7 +103,7 @@ class DB extends PDO {
     public function btnClickSum($siteURL, $button) {
 
         $sql = "SELECT SUM(clicks) 
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     WHERE site_url = :site_url
                     AND button = :button
                 ";
@@ -112,7 +115,7 @@ class DB extends PDO {
 
 
     public function getUniqueSites() {
-        $sql = "SELECT DISTINCT site_url FROM button_data WHERE ".$this->excludeDevSites();
+        $sql = "SELECT DISTINCT site_url FROM ".$this->dbName.".button_data WHERE ".$this->excludeDevSites();
 
         return $this->fetchAll($sql);
     }
@@ -120,7 +123,7 @@ class DB extends PDO {
 
     public function getSiteButtons($siteURL) {
 
-        $sql = "SELECT DISTINCT button FROM button_data
+        $sql = "SELECT DISTINCT button FROM ".$this->dbName.".button_data
                     WHERE site_url = :site_url
                 ";
 
@@ -131,7 +134,7 @@ class DB extends PDO {
 
     public function getUniqueButtons() {
 
-        $sql = "SELECT DISTINCT button FROM button_data";
+        $sql = "SELECT DISTINCT button FROM ".$this->dbName.".button_data";
         
         return $this->fetchAllColumn($sql);
     }
@@ -139,7 +142,7 @@ class DB extends PDO {
     public function getButtonClicks($button) {
 
         $sql = "SELECT id, button_url, post_type, created_at as date 
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     WHERE button = :button
                     AND ".$this->excludeDevSites();
                     
@@ -151,7 +154,7 @@ class DB extends PDO {
     public function getButtonClickSum($button) {
 
         $sql = "SELECT SUM(clicks) as clicks
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     WHERE button = :button
                     AND ".$this->excludeDevSites();
 
@@ -163,7 +166,7 @@ class DB extends PDO {
     public function getUniqueButtonSitesTotal($button) {
 
         $sql = "SELECT COUNT(DISTINCT site_url) as total_sites
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     WHERE button = :button
                     AND ".$this->excludeDevSites();
 
@@ -175,7 +178,7 @@ class DB extends PDO {
     public function getUniqueButtonPagesTotal($button) {
 
         $sql = "SELECT COUNT(DISTINCT button_url) as total_pages
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     WHERE button = :button 
                     AND ".$this->excludeDevSites();
 
@@ -192,7 +195,7 @@ class DB extends PDO {
 
     public function getClicks($page = 0, $count = 100) {
         $sql = "SELECT id, button, button_url, clicks, post_type, updated
-                    FROM button_data
+                    FROM ".$this->dbName.".button_data
                     ORDER BY created_at DESC
                     LIMIT ".$count." OFFSET ".$page * $count;
 
