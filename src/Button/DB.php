@@ -1,8 +1,6 @@
 <?php 
 namespace Button;
 use PDO;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 /**
 * Extremely bare wrapper based on
 * http://codereview.stackexchange.com/questions/52414/my-simple-pdo-wrapper-class
@@ -19,25 +17,28 @@ class DB extends PDO {
     public function __construct($user) {
         // check if a connection already exists
         try {
-            // set options for PDO connection
-            $options = array(
-                PDO::ATTR_PERSISTENT => true,
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-            );
-
             // Load configuration as an array. Use the actual location of your configuration file
             $config = parse_ini_file('config.ini');
             $host = $config['buttonhost'];
-            $name = $config['buttondbname'];
-            $this->dbName = $name;
+            $dbname = $config['buttondbname'];
+            $this->dbName = $dbname;
+            $port = $config['buttonport'];
             $user = $config['buttonusername'];
             $password = $config['buttonpassword'];
+            // set options for PDO connection
+            $options = array(
+                PDO::ATTR_PERSISTENT      => true,
+                PDO::ATTR_ERRMODE         => PDO::ERRMODE_EXCEPTION,
+                PDO::MYSQL_ATTR_SSL_CA     =>'wpengine_root_ca.pem', // path to ssl ca
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+            );
 
             // create the new connection
-            parent::__construct('mysql:host='.$host.';dbname='.$name,
+            parent::__construct('mysql:host='.$host.';dbname='.$dbname.($port ? ';port='.$port : ''),
                                 $user,
                                 $password,
                                 $options);
+
         } catch (\Exception $e) {
             $this->errors = $e->getMessage();
         }
