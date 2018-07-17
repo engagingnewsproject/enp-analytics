@@ -33,7 +33,6 @@ $app->add(function ($req, $res, $next) {
 
 // register views
 $c = $app->getContainer();
-$c['view'] = new \Slim\Views\PhpRenderer("views/");
 
 // anytime a throw new Error happens, it'll run through this.
 
