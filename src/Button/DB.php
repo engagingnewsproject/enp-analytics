@@ -23,15 +23,23 @@ class DB extends PDO {
             $dbname = $config['buttondbname'];
             $this->dbName = $dbname;
             $port = $config['buttonport'];
+            $ssl = $config['buttonssl'];
             $user = $config['buttonusername'];
             $password = $config['buttonpassword'];
             // set options for PDO connection
-            $options = array(
-                PDO::ATTR_PERSISTENT      => true,
-                PDO::ATTR_ERRMODE         => PDO::ERRMODE_EXCEPTION,
-                PDO::MYSQL_ATTR_SSL_CA     =>'wpengine_root_ca.pem', // path to ssl ca
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
-            );
+            if($ssl) {
+                $options = [
+                    PDO::ATTR_PERSISTENT      => true,
+                    PDO::ATTR_ERRMODE         => PDO::ERRMODE_EXCEPTION,
+                    PDO::MYSQL_ATTR_SSL_CA     =>'wpengine_root_ca.pem', // path to ssl ca
+                    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+                ];
+            } else {
+                $options = [
+                    PDO::ATTR_PERSISTENT      => true,
+                    PDO::ATTR_ERRMODE         => PDO::ERRMODE_EXCEPTION
+                ];
+            }
 
             // create the new connection
             parent::__construct('mysql:host='.$host.';dbname='.$dbname.($port ? ';port='.$port : ''),
